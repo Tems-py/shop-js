@@ -2,8 +2,8 @@ const Product = require("../models/product");
 
 exports.getProducts = (req, res, next) => {
     Product.getAll()
-        .then(([rows, fieldData]) => {
-            return res.json(rows);
+        .then((data) => {
+            return res.json(data);
         })
         .catch((err) => console.log(err));
 };

@@ -38,7 +38,7 @@ module.exports = class Product {
                             row["name"],
                             row["image"],
                             row["description"],
-                            Number(row["price"]),
+                            parseFloat(row["price"]),
                             JSON.parse(row["properties"])
                         )
                     );
