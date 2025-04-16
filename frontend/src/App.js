@@ -6,6 +6,7 @@ import axios from "axios";
 import ProductList from "./components/pages/ProductsList";
 import ErrorPage from "./components/pages/ErrorPage";
 import AddProduct from "./components/pages/AddProduct";
+import Cart from "./components/pages/Cart";
 
 // const DEFAULT_PRODUCTS = [
 //     {
@@ -21,9 +22,11 @@ import AddProduct from "./components/pages/AddProduct";
 //         freeDelivery: true,
 //     },
 // ];
+
 function App() {
     const [products, setProducts] = useState([]);
-    const currentPage = window.location.pathname;
+    const [cart, setCart] = useState([]);
+    const [currentPage, setCurrentPage] = useState(window.location.pathname);
 
     let knownAttributes = {};
     products.forEach((e) => {
@@ -41,8 +44,9 @@ function App() {
     }
 
     const pages = {
-        "/": <ProductList products={products} />,
+        "/": <ProductList products={products} cartHook={[cart, setCart]} />,
         "/add-product": <AddProduct knownattributes={knownAttributes} />,
+        "/cart": <Cart cartHook={[cart, setCart]} />,
         default: <ErrorPage />,
     };
 
@@ -62,7 +66,7 @@ function App() {
 
     return (
         <div className="flex w-full flex-col items-center bg-gray gap-3">
-            <NavBar currentPage={currentPage} />
+            <NavBar currentPageHook={[currentPage, setCurrentPage]} />
             {getPage(currentPage)}
         </div>
     );

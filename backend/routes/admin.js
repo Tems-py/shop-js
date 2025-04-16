@@ -4,7 +4,7 @@ const adminController = require("../controllers/adminController");
 
 const router = express.Router();
 
-router.get("/add-product", adminController.postAddProduct);
+router.post("/add-product", adminController.postAddProduct);
 
 // router.get("/cart", shopController.getCart);
 // router.post("/cart", shopController.postCart);

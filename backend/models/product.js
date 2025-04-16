@@ -12,9 +12,9 @@ module.exports = class Product {
 
     addNew() {
         return db.execute(
-            "INSERT INTO products (title, price, imageUrl, description, properties) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO products (name, price, image, description, properties) VALUES (?, ?, ?, ?, ?)",
             [
-                this.title,
+                this.name,
                 this.price,
                 this.imageUrl,
                 this.description,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Product from "../product/Product";
+import axios from "axios";
 import Property from "../product/Property";
 
 const AddProduct = (props) => {
@@ -47,20 +47,20 @@ const AddProduct = (props) => {
         setNewAttributeValue("");
     };
 
-    const product = {
-        name: productName,
-        img: productImage,
-        properties: attributes,
-        price: productPrice,
-        freeDelivery: true,
-    };
-
     const formHandler = (event) => {
         event.preventDefault();
 
         setProductImage("");
         setProductPrice("");
         setProductName("");
+
+        axios.post("http://127.0.0.1:3001/admin/add-product", {
+            name: productName,
+            imageUrl: productImage,
+            properties: attributes,
+            price: productPrice,
+            description: "description",
+        });
 
         // props.addProductHandler(product);
     };
@@ -73,31 +73,21 @@ const AddProduct = (props) => {
             >
                 <div className="flex flex-row justify-between">
                     <div className="flex flex-col gap-3 justify-between">
-                        <div className="flex flex-row align-center items-center gap-3">
-                            <label
-                                htmlFor="name"
-                                style={{
-                                    opacity: productName == "" ? 0 : 1.0,
-                                }}
-                                className="transition text font-bold"
-                            >
-                                Nazwa
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Nazwa"
-                                value={productName}
-                                onChange={nameChangeHandler}
-                                id="name"
-                                style={{
-                                    transform:
-                                        "translateX(" +
-                                        (productName == "" ? -50 : 0) +
-                                        "px)",
-                                }}
-                                className="p-3 border-b-4 border-indigo-500 transition"
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            placeholder="Nazwa"
+                            value={productName}
+                            onChange={nameChangeHandler}
+                            id="name"
+                            style={{
+                                transform:
+                                    "translateX(" +
+                                    (productName == "" ? -1 : 0) +
+                                    "px)",
+                            }}
+                            className="p-3 border-b-4 border-indigo-500 transition"
+                        />
+
                         <input
                             type="text"
                             placeholder="Link do obrazka"
