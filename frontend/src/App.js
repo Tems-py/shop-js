@@ -7,6 +7,8 @@ import ProductList from "./components/pages/ProductsList";
 import ErrorPage from "./components/pages/ErrorPage";
 import AddProduct from "./components/pages/AddProduct";
 import Cart from "./components/pages/Cart";
+import Notification from "./components/Notification";
+import ProductDetails from "./components/pages/ProductDetails";
 
 // const DEFAULT_PRODUCTS = [
 //     {
@@ -27,6 +29,23 @@ function App() {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
     const [currentPage, setCurrentPage] = useState(window.location.pathname);
+    const [notifications, setNotification] = useState([]);
+
+    const addNotification = (title, message, time = 3000, color = null) => {
+        const notification = {
+            title: title,
+            message: message,
+            color: color,
+        };
+        setTimeout(() => {
+            setNotification((n) => n.filter((b) => b !== notification));
+        }, time);
+        setNotification((n) => {
+            const x = n.slice();
+            x.push(notification);
+            return x;
+        });
+    };
 
     let knownAttributes = {};
     products.forEach((e) => {
@@ -44,15 +63,30 @@ function App() {
     }
 
     const pages = {
-        "/": <ProductList products={products} cartHook={[cart, setCart]} />,
         "/add-product": <AddProduct knownattributes={knownAttributes} />,
         "/cart": <Cart cartHook={[cart, setCart]} />,
+        "/product/.+": (
+            <ProductDetails
+                products={products}
+                cartHook={[cart, setCart]}
+                addNotification={addNotification}
+            />
+        ),
         default: <ErrorPage />,
+        "/": (
+            <ProductList
+                products={products}
+                cartHook={[cart, setCart]}
+                addNotification={addNotification}
+            />
+        ),
     };
 
     const getPage = (path) => {
-        if (Object.keys(pages).includes(path)) {
-            return pages[path];
+        for (let page in pages) {
+            if (new RegExp(page).test(path)) {
+                return pages[page];
+            }
         }
         return pages["default"];
     };
@@ -68,6 +102,16 @@ function App() {
         <div className="flex w-full flex-col items-center bg-gray gap-3">
             <NavBar currentPageHook={[currentPage, setCurrentPage]} />
             {getPage(currentPage)}
+            <div className="flex flex-col gap-3 notifications">
+                {notifications.map((n, i) => (
+                    <Notification
+                        key={i}
+                        message={n.message}
+                        title={n.title}
+                        color={n.color}
+                    ></Notification>
+                ))}
+            </div>
         </div>
     );
 }

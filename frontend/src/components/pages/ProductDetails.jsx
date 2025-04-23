@@ -1,6 +1,6 @@
 import Product from "../product/Product";
 
-const ProductList = (props) => {
+const ProductDetails = (props) => {
     const { products, cartHook, addNotification } = props;
     const [cart, setCart] = cartHook;
 
@@ -24,17 +24,13 @@ const ProductList = (props) => {
         setCart(cart.slice());
     };
 
+    const product = products;
+
     return (
         <div className="grid grid-cols-3 gap-3 w-fit">
-            {products.map((product) => (
-                <Product
-                    product={product}
-                    addToCart={addToCart}
-                    key={product.id}
-                />
-            ))}
+            {product && <Product product={product} addToCart={addToCart} />}
         </div>
     );
 };
 
-export default ProductList;
+export default ProductDetails;
