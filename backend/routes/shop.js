@@ -5,6 +5,7 @@ const shopController = require("../controllers/shopController");
 const router = express.Router();
 
 router.get("/products", shopController.getProducts);
+router.post("/new_order", shopController.postNewOrder);
 router.get("/product/:productId", shopController.getProduct);
 
 // router.get("/cart", shopController.getCart);
