@@ -37,9 +37,12 @@ const Product = (props) => {
                 >
                     🛒
                 </button>
-                <button className="p-3 border border-indigo-300 rounded-md">
+                <a
+                    className="p-3 border border-indigo-300 rounded-md text-center"
+                    href={"/product/" + product.id}
+                >
                     👀👀
-                </button>
+                </a>
             </div>
         </div>
     );

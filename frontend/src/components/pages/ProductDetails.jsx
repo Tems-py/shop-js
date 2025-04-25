@@ -24,7 +24,10 @@ const ProductDetails = (props) => {
         setCart(cart.slice());
     };
 
-    const product = products;
+    const hrefId = Number(window.location.pathname.split("/")[2]);
+    console.log(hrefId);
+    console.log(products);
+    const product = products.filter((p) => p.id == hrefId)[0];
 
     return (
         <div className="grid grid-cols-3 gap-3 w-fit">
