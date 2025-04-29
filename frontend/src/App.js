@@ -30,6 +30,13 @@ function App() {
     const [cart, setCart] = useState([]);
     const [currentPage, setCurrentPage] = useState(window.location.pathname);
     const [notifications, setNotification] = useState([]);
+    const [address, setAddress] = useState({
+        postCode: "",
+        city: "",
+        street: "",
+        building: "",
+        telephone: "",
+    });
 
     const addNotification = (title, message, time = 3000, color = null) => {
         const notification = {
@@ -64,7 +71,12 @@ function App() {
 
     const pages = {
         "/add-product": <AddProduct knownattributes={knownAttributes} />,
-        "/cart": <Cart cartHook={[cart, setCart]} />,
+        "/cart": (
+            <Cart
+                cartHook={[cart, setCart]}
+                addressHook={[address, setAddress]}
+            />
+        ),
         "/product/.+": (
             <ProductDetails
                 products={products}
