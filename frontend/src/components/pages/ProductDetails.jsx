@@ -30,8 +30,16 @@ const ProductDetails = (props) => {
     const product = products.filter((p) => p.id == hrefId)[0];
 
     return (
-        <div className="grid grid-cols-3 gap-3 w-fit">
+        <div className="flex flex-col gap-3">
             {product && <Product product={product} addToCart={addToCart} />}
+            {product && (
+                <a
+                    className="p-3 border border-indigo-300 rounded md text-center"
+                    href={"/edit-product/" + product.id}
+                >
+                    Edytuj produkt
+                </a>
+            )}
         </div>
     );
 };

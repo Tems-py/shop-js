@@ -9,6 +9,7 @@ import AddProduct from "./components/pages/AddProduct";
 import Cart from "./components/pages/Cart";
 import Notification from "./components/Notification";
 import ProductDetails from "./components/pages/ProductDetails";
+import EditProduct from "./components/pages/EditProduct";
 
 // const DEFAULT_PRODUCTS = [
 //     {
@@ -54,6 +55,13 @@ function App() {
         });
     };
 
+    useEffect(() => {
+        axios.get("http://127.0.0.1:3001/products").then((response) => {
+            console.log(response.data);
+            setProducts(response.data);
+        });
+    }, []);
+
     let knownAttributes = {};
     products.forEach((e) => {
         e.properties.forEach((p) => {
@@ -71,6 +79,12 @@ function App() {
 
     const pages = {
         "/add-product": <AddProduct knownattributes={knownAttributes} />,
+        "/edit-product/.+": (
+            <EditProduct
+                products={products}
+                knownattributes={knownAttributes}
+            />
+        ),
         "/cart": (
             <Cart
                 cartHook={[cart, setCart]}
@@ -102,13 +116,6 @@ function App() {
         }
         return pages["default"];
     };
-
-    useEffect(() => {
-        axios.get("http://127.0.0.1:3001/products").then((response) => {
-            console.log(response.data);
-            setProducts(response.data);
-        });
-    }, []);
 
     return (
         <div className="flex w-full flex-col items-center bg-gray gap-3">
