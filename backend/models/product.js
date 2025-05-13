@@ -23,6 +23,21 @@ module.exports = class Product {
         );
     }
 
+    updateProduct() {
+        console.log(this);
+        return db.execute(
+            "UPDATE products SET `name` = ?, `price` = ?, `image` = ?, `description` = ?, `properties` = ? where `id` = ?",
+            [
+                this.name,
+                this.price,
+                this.imageUrl,
+                this.description,
+                JSON.stringify(this.properties),
+                this.id,
+            ]
+        );
+    }
+
     static fetchAll() {
         return db.execute("SELECT * FROM products");
     }

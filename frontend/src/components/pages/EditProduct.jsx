@@ -3,7 +3,7 @@ import axios from "axios";
 import Property from "../product/Property";
 
 const EditProduct = (props) => {
-    const { products } = props;
+    const { products, updateProduct } = props;
     const [product, setProduct] = useState({
         id: null,
         name: null,
@@ -49,16 +49,16 @@ const EditProduct = (props) => {
     const formHandler = (event) => {
         event.preventDefault();
 
-        // axios.post("http://127.0.0.1:3001/admin/edit-product", {
-        //     id: product.id,
-        //     name: productName,
-        //     imageUrl: productImage,
-        //     properties: attributes,
-        //     price: productPrice,
-        //     description: "description",
-        // });
+        axios.post("http://127.0.0.1:3001/admin/edit-product", {
+            id: product.id,
+            name: product.name,
+            imageUrl: product.imageUrl,
+            properties: product.properties,
+            price: product.price,
+            description: product.description,
+        });
 
-        // props.addProductHandler(product);
+        updateProduct(product);
     };
 
     const handleChange = (e) =>
@@ -143,7 +143,7 @@ const EditProduct = (props) => {
                 </div>
                 <input
                     type="submit"
-                    value="Dodaj produkt"
+                    value="Edytuj produkt"
                     className="p-3 border border-indigo-600 bg-indigo-500 rounded-md font-lg text-white font-bold"
                 />
             </form>

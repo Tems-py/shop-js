@@ -1,7 +1,7 @@
 import Product from "../product/Product";
 
 const ProductList = (props) => {
-    const { products, cartHook, addNotification } = props;
+    const { products, cartHook, addNotification, adminView } = props;
     const [cart, setCart] = cartHook;
 
     const addToCart = (product) => {

@@ -11,3 +11,14 @@ exports.postAddProduct = (req, res, next) => {
     );
     product.addNew();
 };
+
+exports.postEditProduct = (req, res, netx) => {
+    Product.findById(req.body.id).then((product) => {
+        product.name = req.body.name;
+        product.imageUrl = req.body.imageUrl;
+        product.description = req.body.description;
+        product.price = req.body.price;
+        product.properties = req.body.properties;
+        product.updateProduct();
+    });
+};

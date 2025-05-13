@@ -55,6 +55,13 @@ function App() {
         });
     };
 
+    const updateProduct = (product) => {
+        setProducts((products) => {
+            products = products.filter((p) => p.id !== product.id);
+            return [product, ...products];
+        });
+    };
+
     useEffect(() => {
         axios.get("http://127.0.0.1:3001/products").then((response) => {
             console.log(response.data);
@@ -83,6 +90,7 @@ function App() {
             <EditProduct
                 products={products}
                 knownattributes={knownAttributes}
+                updateProduct={updateProduct}
             />
         ),
         "/cart": (
