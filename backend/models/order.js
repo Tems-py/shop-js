@@ -21,10 +21,10 @@ module.exports = class Order {
     static getAll() {
         return new Promise((resolve, reject) => {
             const products = [];
-            db.execute("SELECT * FROM oders").then(([rows, fieldData]) => {
+            db.execute("SELECT * FROM orders").then(([rows, fieldData]) => {
                 rows.forEach((row) => {
                     products.push(
-                        new Order(row["address"], JSON.parse(row["products"]))
+                        new Order(JSON.parse(row["products"], row["address"]))
                     );
                 });
                 resolve(products);

@@ -10,6 +10,7 @@ import Cart from "./components/pages/Cart";
 import Notification from "./components/Notification";
 import ProductDetails from "./components/pages/ProductDetails";
 import EditProduct from "./components/pages/EditProduct";
+import Orders from "./components/pages/Orders";
 
 // const DEFAULT_PRODUCTS = [
 //     {
@@ -86,6 +87,7 @@ function App() {
 
     const pages = {
         "/add-product": <AddProduct knownattributes={knownAttributes} />,
+        "/orders": <Orders />,
         "/edit-product/.+": (
             <EditProduct
                 products={products}

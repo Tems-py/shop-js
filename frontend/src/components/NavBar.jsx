@@ -11,6 +11,7 @@ const NavBar = (props) => {
         { name: "Strona główna", path: "/" },
         { name: "Koszyk", path: "/cart" },
         { name: "Dodaj produkt", path: "/add-product" },
+        { name: "Zamowienia", path: "/orders" },
     ];
 
     return (

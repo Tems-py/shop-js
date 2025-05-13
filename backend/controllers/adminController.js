@@ -1,3 +1,4 @@
+const Order = require("../models/Order");
 const Product = require("../models/product");
 
 exports.postAddProduct = (req, res, next) => {
@@ -10,6 +11,7 @@ exports.postAddProduct = (req, res, next) => {
         req.body.properties
     );
     product.addNew();
+    return res.json("Added");
 };
 
 exports.postEditProduct = (req, res, netx) => {
@@ -20,5 +22,12 @@ exports.postEditProduct = (req, res, netx) => {
         product.price = req.body.price;
         product.properties = req.body.properties;
         product.updateProduct();
+        return res.json("Updated");
+    });
+};
+
+exports.getOrderList = (req, res, next) => {
+    Order.getAll().then((orders) => {
+        return res.json(orders);
     });
 };
