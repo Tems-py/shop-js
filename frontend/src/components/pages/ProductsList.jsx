@@ -2,6 +2,7 @@ import Product from "../product/Product";
 
 const ProductList = (props) => {
     const { products, cartHook, addNotification, adminView } = props;
+    console.log(adminView);
     const [cart, setCart] = cartHook;
 
     const addToCart = (product) => {
@@ -31,6 +32,7 @@ const ProductList = (props) => {
                     product={product}
                     addToCart={addToCart}
                     key={product.id}
+                    adminView={adminView}
                 />
             ))}
         </div>

@@ -1,4 +1,5 @@
 const db = require("../utils/database");
+const Product = require("./product");
 
 module.exports = class Order {
     constructor(products, address) {
@@ -14,20 +15,36 @@ module.exports = class Order {
         );
     }
 
+    getWithProductData() {
+        let products = this.products;
+        return new Promise((resolve, reject) => {
+            resolve(
+                products.map((orderProduct) => {
+                    Product.findById(orderProduct.id).then((product) => {
+                        return {
+                            product: product,
+                            quantity: orderProduct.quantity,
+                        };
+                    });
+                })
+            );
+        });
+    }
+
     static fetchAll() {
         return db.execute("SELECT * FROM orders");
     }
 
     static getAll() {
         return new Promise((resolve, reject) => {
-            const products = [];
+            const orders = [];
             db.execute("SELECT * FROM orders").then(([rows, fieldData]) => {
                 rows.forEach((row) => {
-                    products.push(
+                    orders.push(
                         new Order(JSON.parse(row["products"], row["address"]))
                     );
                 });
-                resolve(products);
+                resolve(orders);
             });
         });
     }

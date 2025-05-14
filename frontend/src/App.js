@@ -101,11 +101,27 @@ function App() {
                 addressHook={[address, setAddress]}
             />
         ),
+        "/admin_products": (
+            <ProductList
+                products={products}
+                cartHook={[cart, setCart]}
+                addNotification={addNotification}
+                adminView={true}
+            />
+        ),
         "/product/.+": (
             <ProductDetails
                 products={products}
                 cartHook={[cart, setCart]}
                 addNotification={addNotification}
+            />
+        ),
+        "/product_admin/.+": (
+            <ProductDetails
+                products={products}
+                cartHook={[cart, setCart]}
+                addNotification={addNotification}
+                adminView={true}
             />
         ),
         default: <ErrorPage />,
@@ -114,6 +130,7 @@ function App() {
                 products={products}
                 cartHook={[cart, setCart]}
                 addNotification={addNotification}
+                adminView={false}
             />
         ),
     };

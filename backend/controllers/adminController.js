@@ -28,6 +28,12 @@ exports.postEditProduct = (req, res, netx) => {
 
 exports.getOrderList = (req, res, next) => {
     Order.getAll().then((orders) => {
-        return res.json(orders);
+        var promises = orders.map((order) => {
+            return order.getWithProductData();
+        });
+        Promise.all(promises).then(function (results) {
+            console.log(results);
+            return res.json(results);
+        });
     });
 };
