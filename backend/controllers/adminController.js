@@ -37,3 +37,9 @@ exports.getOrderList = (req, res, next) => {
         });
     });
 };
+
+exports.postDeleteProduct = (req, res, next) => {
+    Product.delete(req.body.id).then(() => {
+        return res.json("Delted");
+    });
+};

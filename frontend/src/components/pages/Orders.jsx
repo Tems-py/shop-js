@@ -14,14 +14,29 @@ const Orders = (props) => {
     return (
         <div className="flex flex-col gap-3 w-fit">
             <h1 className="text-2xl font-bold text-center">Zamowienia</h1>
-            {orders.map((order, i) => (
-                <div
-                    className="border border-indigo-500 p-3 rounded-md flex flex-row justify-between items-center gap-3"
-                    key={i}
-                >
-                    {JSON.stringify(order)}
-                </div>
-            ))}
+            <table className="">
+                <tr>
+                    <td>Id</td>
+                    <td>Adres</td>
+                    <td>Produkty</td>
+                    <td>Cena</td>
+                </tr>
+                {orders.map((order, i) => (
+                    <tr key={i}>
+                        {order}
+                        <td className="">{order.id}</td>
+                        <td>
+                            {order.products.map((product, i) => (
+                                <span key={i}>
+                                    <img src={product.image} alt="" />
+                                    <span>{product.name}</span>
+                                </span>
+                            ))}
+                        </td>
+                        <td>{order.price}</td>
+                    </tr>
+                ))}
+            </table>
         </div>
     );
 };

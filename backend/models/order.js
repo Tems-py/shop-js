@@ -17,17 +17,21 @@ module.exports = class Order {
 
     getWithProductData() {
         let products = this.products;
+        const promises = [];
         return new Promise((resolve, reject) => {
-            resolve(
-                products.map((orderProduct) => {
-                    Product.findById(orderProduct.id).then((product) => {
-                        return {
-                            product: product,
-                            quantity: orderProduct.quantity,
-                        };
-                    });
-                })
-            );
+            products.map((orderProduct) => {
+                promises.push(
+                    new Promise((resolve, reject) =>
+                        Product.findById(orderProduct.id).then((product) => {
+                            resolve({
+                                product: product,
+                                quantity: orderProduct.quantity,
+                            });
+                        })
+                    )
+                );
+            });
+            resolve(Promise.all(promises));
         });
     }
 

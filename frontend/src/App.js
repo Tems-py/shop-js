@@ -70,6 +70,13 @@ function App() {
         });
     }, []);
 
+    const deleteProduct = (id) => {
+        setProducts((products) => {
+            products = products.filter((p) => p.id !== id);
+            return [...products];
+        });
+    };
+
     let knownAttributes = {};
     products.forEach((e) => {
         e.properties.forEach((p) => {
@@ -122,6 +129,8 @@ function App() {
                 cartHook={[cart, setCart]}
                 addNotification={addNotification}
                 adminView={true}
+                deleteProduct={deleteProduct}
+                currentPageHook={[currentPage, setCurrentPage]}
             />
         ),
         default: <ErrorPage />,

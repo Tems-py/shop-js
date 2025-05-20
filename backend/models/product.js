@@ -38,6 +38,10 @@ module.exports = class Product {
         );
     }
 
+    static delete(id) {
+        return db.execute("DELETE FROM products where `id` = ?", [id]);
+    }
+
     static fetchAll() {
         return db.execute("SELECT * FROM products");
     }
