@@ -3,6 +3,10 @@ import Price from "./Price";
 
 function loopForProperties(properties) {
     const ps = [];
+    if (!properties) {
+        console.log(properties);
+        return [];
+    }
     properties.forEach((p, i) => {
         ps.push(<Property text={p.text} value={p.value} key={i} />);
     });
@@ -17,6 +21,7 @@ function delivery(d) {
 
 const Product = (props) => {
     const { addToCart, product, adminView } = props;
+    console.log(product);
     return (
         <div className="p-3 flex flex-col border border-indigo-300 rounded-md">
             <div className="w-full flex align-center justify-center">

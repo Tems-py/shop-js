@@ -38,6 +38,7 @@ function App() {
         street: "",
         building: "",
         telephone: "",
+        email: "",
     });
 
     const addNotification = (title, message, time = 3000, color = null) => {

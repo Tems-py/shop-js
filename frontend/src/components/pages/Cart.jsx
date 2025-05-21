@@ -7,7 +7,7 @@ const Cart = (props) => {
     const [cart, setCart] = cartHook;
     const [address, setAddress] = addressHook;
 
-    const [deliveryType, setDeliveryType] = useState();
+    const [deliveryType, setDeliveryType] = useState(0);
 
     const deliveryMethods = [
         {
@@ -28,6 +28,7 @@ const Cart = (props) => {
     cart.forEach((element) => {
         sum += element.product.price * element.quantity;
     });
+    if (deliveryType) sum += deliveryType.cost;
 
     const updateQuantity = (index, q) => {
         setCart((c) => {
@@ -40,16 +41,28 @@ const Cart = (props) => {
     };
 
     const createOrder = () => {
+        console.log(deliveryType);
         axios.post("http://localhost:3001/new_order", {
             cart: cart.map((p) => ({ id: p.product.id, quantity: p.quantity })),
-            address: "Łączna łupinki",
+            address:
+                address.city +
+                " " +
+                address.postCode +
+                " " +
+                address.street +
+                " " +
+                address.building,
+            telephone: address.telephone,
+            email: address.email,
+            price: sum,
+            deliveryType: deliveryType.name,
         });
     };
 
     return (
         <div className="flex flex-col gap-3 w-fit">
             {cart.length === 0 && (
-                <div class="text-xl p-3 rounded-md border border-red-500 ">
+                <div className="text-xl p-3 rounded-md border border-red-500 ">
                     Brak produktów w koszyku
                 </div>
             )}
@@ -96,7 +109,6 @@ const Cart = (props) => {
                                     onChange={(e) => {
                                         setAddress((address) => {
                                             const address2 = { ...address };
-                                            console.log(address2);
                                             address2.city = e.target.value;
                                             return address2;
                                         });
@@ -113,7 +125,6 @@ const Cart = (props) => {
                                     onChange={(e) => {
                                         setAddress((address) => {
                                             const address2 = { ...address };
-                                            console.log(address2);
                                             address2.postCode = e.target.value;
                                             return address2;
                                         });
@@ -130,7 +141,6 @@ const Cart = (props) => {
                                     onChange={(e) => {
                                         setAddress((address) => {
                                             const address2 = { ...address };
-                                            console.log(address2);
                                             address2.address = e.target.value;
                                             return address2;
                                         });
@@ -147,7 +157,6 @@ const Cart = (props) => {
                                     onChange={(e) => {
                                         setAddress((address) => {
                                             const address2 = { ...address };
-                                            console.log(address2);
                                             address2.building = e.target.value;
                                             return address2;
                                         });
@@ -164,8 +173,23 @@ const Cart = (props) => {
                                     onChange={(e) => {
                                         setAddress((address) => {
                                             const address2 = { ...address };
-                                            console.log(address2);
                                             address2.telephone = e.target.value;
+                                            return address2;
+                                        });
+                                    }}
+                                    className="p-2 border-indigo-300 bg-indigo-200 rounded-md border w-full"
+                                />
+                            </div>
+                            <div className="col-span-2">
+                                <div>Adres email</div>
+                                <input
+                                    type="text"
+                                    value={address.email}
+                                    placeholder="Adres email"
+                                    onChange={(e) => {
+                                        setAddress((address) => {
+                                            const address2 = { ...address };
+                                            address2.email = e.target.value;
                                             return address2;
                                         });
                                     }}
@@ -181,7 +205,9 @@ const Cart = (props) => {
                         <select
                             value={deliveryType}
                             className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
-                            onChange={(e) => setDeliveryType(e.target.value)}
+                            onChange={(e) =>
+                                setDeliveryType(deliveryMethods[e.target.value])
+                            }
                         >
                             {deliveryMethods.map((method, i) => (
                                 <option value={i}>

@@ -2,16 +2,28 @@ const db = require("../utils/database");
 const Product = require("./product");
 
 module.exports = class Order {
-    constructor(products, address) {
+    constructor(id, products, address, email, telephone, price, deliveryType) {
+        this.id = id;
         this.products = products;
         this.address = address;
+        this.email = email;
+        this.telephone = telephone;
+        this.price = price;
+        this.deliveryType = deliveryType;
     }
 
     addNew() {
         console.log(this);
         return db.execute(
-            "INSERT INTO orders (products, address, price) VALUES (?, ?, ?)",
-            [JSON.stringify(this.products), this.address, 0.0]
+            "INSERT INTO orders (products, address, email, telephone, price, deliveryType) VALUES (?, ?, ?, ?, ?, ?)",
+            [
+                JSON.stringify(this.products),
+                this.address,
+                this.email,
+                this.telephone,
+                this.price,
+                this.deliveryType,
+            ]
         );
     }
 
@@ -23,6 +35,7 @@ module.exports = class Order {
                 promises.push(
                     new Promise((resolve, reject) =>
                         Product.findById(orderProduct.id).then((product) => {
+                            if (product == null) resolve(null);
                             resolve({
                                 product: product,
                                 quantity: orderProduct.quantity,
@@ -31,6 +44,13 @@ module.exports = class Order {
                     )
                 );
             });
+            promises.push(
+                new Promise((resolve, reject) => {
+                    const order = { ...this };
+                    order.products = undefined;
+                    resolve(order);
+                })
+            );
             resolve(Promise.all(promises));
         });
     }
@@ -45,9 +65,18 @@ module.exports = class Order {
             db.execute("SELECT * FROM orders").then(([rows, fieldData]) => {
                 rows.forEach((row) => {
                     orders.push(
-                        new Order(JSON.parse(row["products"], row["address"]))
+                        new Order(
+                            row["id"],
+                            JSON.parse(row["products"]),
+                            row["address"],
+                            row["email"],
+                            row["telephone"],
+                            row["price"],
+                            row["deliveryType"]
+                        )
                     );
                 });
+                console.log(orders);
                 resolve(orders);
             });
         });

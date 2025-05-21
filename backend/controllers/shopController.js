@@ -21,6 +21,18 @@ exports.getProduct = (req, res, next) => {
 exports.postNewOrder = (req, res, next) => {
     let address = req.body.address;
     let cart = req.body.cart;
-    const order = new Order(cart, address);
+    let email = req.body.email;
+    let telephone = req.body.telephone;
+    let price = req.body.price;
+    let deliveryType = req.body.deliveryType;
+    const order = new Order(
+        0,
+        cart,
+        address,
+        email,
+        telephone,
+        price,
+        deliveryType
+    );
     order.addNew();
 };
