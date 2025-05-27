@@ -17,7 +17,7 @@ const NavBar = (props) => {
 
     return (
         <div className="w-full bg-gray-300 p-3 lg:mx-12 mt-3 rounded-md">
-            <ul className="flex flex-col md:flex-row gap-3">
+            <ul className="flex flex-col md:flex-row gap-3 cursor-pointer">
                 {elements.map((elem, i) => (
                     <li
                         key={i}

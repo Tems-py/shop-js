@@ -3,12 +3,10 @@ import Product from "../product/Product";
 import { useState } from "react";
 
 const Cart = (props) => {
-    const { cartHook, addressHook } = props;
+    const { cartHook, addressHook, currentPageHook } = props;
     const [cart, setCart] = cartHook;
     const [address, setAddress] = addressHook;
-
-    const [deliveryType, setDeliveryType] = useState(0);
-
+    const [currentPage, setCurrentPage] = currentPageHook;
     const deliveryMethods = [
         {
             name: "Kurier DHL",
@@ -23,6 +21,8 @@ const Cart = (props) => {
             cost: 7.99,
         },
     ];
+
+    const [deliveryType, setDeliveryType] = useState(deliveryMethods[0]);
 
     let sum = 0;
     cart.forEach((element) => {
@@ -42,6 +42,7 @@ const Cart = (props) => {
 
     const createOrder = () => {
         console.log(deliveryType);
+
         axios.post("http://localhost:3001/new_order", {
             cart: cart.map((p) => ({ id: p.product.id, quantity: p.quantity })),
             address:
@@ -57,6 +58,10 @@ const Cart = (props) => {
             price: sum,
             deliveryType: deliveryType.name,
         });
+
+        setCart([]);
+        setCurrentPage("/orders");
+        window.history.pushState(null, null, "/admin_products");
     };
 
     return (
@@ -203,14 +208,18 @@ const Cart = (props) => {
                     </h3>
                     <div>
                         <select
-                            value={deliveryType}
+                            value={deliveryType.name}
                             className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
-                            onChange={(e) =>
-                                setDeliveryType(deliveryMethods[e.target.value])
+                            onChange={(e, i) =>
+                                setDeliveryType(
+                                    deliveryMethods.find(
+                                        (d) => d.name == e.target.value
+                                    )
+                                )
                             }
                         >
                             {deliveryMethods.map((method, i) => (
-                                <option value={i}>
+                                <option value={method.name}>
                                     {method.name} - {method.cost}zł
                                 </option>
                             ))}
@@ -221,7 +230,7 @@ const Cart = (props) => {
                     </h3>
                     <div className="flex flex-row justify-between p-3 border-indigo-300 bg-indigo-200 font-xl border rounded-md">
                         <div>Suma zamowówienia:</div>
-                        <div className="font-bold">{sum} zł</div>
+                        <div className="font-bold">{sum.toFixed(2)} zł</div>
                     </div>
                     <button
                         onClick={createOrder}

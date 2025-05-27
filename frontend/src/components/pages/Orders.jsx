@@ -22,12 +22,14 @@ const Orders = (props) => {
                     <td>Produkty</td>
                     <td>Email</td>
                     <td>Numer telefonu</td>
+                    <td>Rodzaj dostawy</td>
+                    <td>Suma</td>
                 </tr>
                 {orders.map((order, i) => (
                     <tr key={i} className="border-b border-gray-200 p-3">
-                        <td className="m-3">{order.at(-1).id}</td>
-                        <td className="m-3">{order.at(-1).address}</td>
-                        <td className="m-3">
+                        <td className="m-3 p-3">{order.at(-1).id}</td>
+                        <td className="m-3 p-3">{order.at(-1).address}</td>
+                        <td className="m-3 p-3">
                             {order
                                 .filter((o, i) => {
                                     return o.product;
@@ -50,8 +52,12 @@ const Orders = (props) => {
                                     </span>
                                 ))}
                         </td>
-                        <td className="m-3">{order.at(-1).email}</td>
-                        <td className="m-3">{order.at(-1).telephone}</td>
+                        <td className="m-3 p-3">{order.at(-1).email}</td>
+                        <td className="m-3 p-3">{order.at(-1).telephone}</td>
+                        <td className="m-3 p-3">{order.at(-1).deliveryType}</td>
+                        <td className="m-3 p-3">
+                            {order.at(-1).price.toFixed(2)}zł
+                        </td>
                         {/* <td>{JSON.stringify(order)}</td> */}
                     </tr>
                 ))}

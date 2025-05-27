@@ -107,6 +107,7 @@ function App() {
             <Cart
                 cartHook={[cart, setCart]}
                 addressHook={[address, setAddress]}
+                currentPageHook={[currentPage, setCurrentPage]}
             />
         ),
         "/admin_products": (
