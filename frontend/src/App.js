@@ -66,7 +66,6 @@ function App() {
 
     useEffect(() => {
         axios.get("http://127.0.0.1:3001/products").then((response) => {
-            console.log(response.data);
             setProducts(response.data);
         });
     }, []);
@@ -116,6 +115,7 @@ function App() {
                 cartHook={[cart, setCart]}
                 addNotification={addNotification}
                 adminView={true}
+                knownAttributes={knownAttributes}
             />
         ),
         "/product/.+": (
@@ -142,6 +142,7 @@ function App() {
                 cartHook={[cart, setCart]}
                 addNotification={addNotification}
                 adminView={false}
+                knownAttributes={knownAttributes}
             />
         ),
     };
