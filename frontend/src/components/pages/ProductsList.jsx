@@ -32,48 +32,55 @@ const ProductList = (props) => {
 
     return (
         <div className="flex flex-col gap-3 items-center">
-            <div className="grid grid-cols-2 gap-3 items-center">
+            <div className="flex flex-col gap-3 items-center">
                 <label className="flex flex-row gap-3 items-center">
                     Cena od
+                    <input
+                        type="text"
+                        className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
+                        value={priceStart}
+                        onChange={(e) => setPriceStart(e.target.value)}
+                    />
                 </label>
-                <input
-                    type="text"
-                    className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
-                    value={priceStart}
-                    onChange={(e) => setPriceStart(e.target.value)}
-                />
+
                 <label className="flex flex-row gap-3 items-center">
                     Cena do
+                    <input
+                        type="text"
+                        className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
+                        value={priceEnd}
+                        onChange={(e) => setPriceEnd(e.target.value)}
+                    />
                 </label>
-                <input
-                    type="text"
-                    className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
-                    value={priceEnd}
-                    onChange={(e) => setPriceEnd(e.target.value)}
-                />
 
-                {Object.keys(knownAttributes).map((a) => (
-                    <>
-                        <label className="flex flex-row gap-3 items-center">
-                            {a}
-                        </label>
-                        <select
-                            className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
-                            onChange={(e) => {
-                                setSelectedAttributes((selectedAttributes) => {
-                                    const s = { ...selectedAttributes };
-                                    s[a] = e.target.value;
-                                    console.log(s);
-                                    return s;
-                                });
-                            }}
-                        >
-                            {knownAttributes[a].map((attribute) => (
-                                <option value={attribute}>{attribute}</option>
-                            ))}
-                        </select>
-                    </>
-                ))}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                    {Object.keys(knownAttributes).map((a) => (
+                        <div className="flex flex-col gap-2">
+                            <label className="flex flex-row gap-3 items-center">
+                                {a}
+                            </label>
+                            <select
+                                className="p-2 border-indigo-300 bg-indigo-200 rounded-md border"
+                                onChange={(e) => {
+                                    setSelectedAttributes(
+                                        (selectedAttributes) => {
+                                            const s = { ...selectedAttributes };
+                                            s[a] = e.target.value;
+                                            console.log(s);
+                                            return s;
+                                        }
+                                    );
+                                }}
+                            >
+                                {knownAttributes[a].map((attribute) => (
+                                    <option value={attribute}>
+                                        {attribute}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    ))}
+                </div>
             </div>
             <div className="grid grid-cols-3 gap-3 w-fit">
                 {products

@@ -22,16 +22,16 @@ const Product = (props) => {
     const { addToCart, product, adminView } = props;
     return (
         <div className="p-3 flex flex-col border border-indigo-300 rounded-md">
-            <div className="w-full flex align-center justify-center">
+            <div className="w-full flex align-center justify-center my-2">
                 <img
-                    className="w-max-64 h-64"
+                    className="w-max-64 h-64 rounded-xl"
                     src={product.imageUrl}
                     alt={product.name}
                 ></img>
             </div>
             <div className="font-bold text-lg">{product.name}</div>
             <div>{loopForProperties(product.properties)}</div>
-            <Price>{product.price}</Price>
+            <Price>{Number(product.price).toFixed(2)}</Price>
 
             <div className="grid grid-cols-2 place-content-between gap-6 mt-4">
                 <button
